@@ -1,5 +1,4 @@
 ﻿using LoyalitySystem.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoyalitySystem.Host.Controllers
@@ -9,10 +8,12 @@ namespace LoyalitySystem.Host.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILoyalitySystemService _loyalitySystemService;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(ILoyalitySystemService loyalitySystemService)
+        public UsersController(ILoyalitySystemService loyalitySystemService, ILogger<UsersController> logger)
         {
             _loyalitySystemService = loyalitySystemService;
+            _logger = logger;
         }
 
         [HttpPost("{userId}/earn")]
@@ -20,16 +21,19 @@ namespace LoyalitySystem.Host.Controllers
         {
             if (points <= 0)
             {
+                _logger.LogWarning("Invalid points value {Points} provided for user with ID {UserId}", points, userId);
                 return BadRequest("Points must be greater than zero.");
             }
 
             try
             {
                 await _loyalitySystemService.Earn(userId, points);
+                _logger.LogInformation("P   oints {Points} earned for user with ID {UserId}", points, userId);
                 return Ok();
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while earning points for user with ID {UserId}", userId);
                 return StatusCode(500, ex.Message);
             }
         }
