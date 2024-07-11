@@ -1,5 +1,7 @@
-﻿using LoyalitySystem.Application;
+﻿using FluentValidation.AspNetCore;
+using LoyalitySystem.Application;
 using LoyalitySystem.Contracts;
+using LoyalitySystem.Host.Validators;
 using LoyalitySystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -18,13 +20,17 @@ namespace LoyalitySystem.Host
             //register LoyalitySystem db
             builder.Services.AddDbContext<LoyalitySystemDbContext>(options => options.UseSqlServer(LoyalitySystemDbConnection));
 
-
             // Configure Serilog
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
                 .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
             builder.Host.UseSerilog();
+
+            // Add FluentValidation
+            builder.Services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<EarnPointsRequestValidator>());
+
             return builder;
 
         }
