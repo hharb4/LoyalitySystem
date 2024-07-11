@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoyalitySystem.Contracts\LoyalitySystem.Contracts.csproj" />
+    <ProjectReference Include="..\LoyalitySystem.Domain\LoyalitySystem.Domain.csproj" />
+    <ProjectReference Include="..\LoyalitySystem.Infrastructure\LoyalitySystem.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

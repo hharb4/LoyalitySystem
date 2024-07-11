@@ -1,0 +1,6 @@
+@LoyalitySystem.Host_HostAddress = http://localhost:5200
+
+GET {{LoyalitySystem.Host_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
