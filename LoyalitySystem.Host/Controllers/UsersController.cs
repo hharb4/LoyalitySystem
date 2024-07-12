@@ -42,5 +42,21 @@ namespace LoyalitySystem.Host.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("{userId}/points")]
+        public async Task<IActionResult> GetPoints(Guid userId)
+        {
+            try
+            {
+                var points = await _loyalitySystemService.GetPointsAsync(userId);
+                _logger.LogInformation("Retrieved {Points} points for user with ID {UserId}", points, userId);
+                return Ok(points);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving points for user with ID {UserId}", userId);
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

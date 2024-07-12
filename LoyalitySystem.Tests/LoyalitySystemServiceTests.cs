@@ -3,8 +3,10 @@ using LoyalitySystem.Domain;
 using LoyalitySystem.Domain.Shared;
 using LoyalitySystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Text.Json;
 using Xunit;
 
 namespace LoyalitySystem.Tests
@@ -12,6 +14,7 @@ namespace LoyalitySystem.Tests
     public class LoyalitySystemServiceTests
     {
         private readonly Mock<ILogger<LoyalitySystemService>> _loggerMock;
+        private readonly Mock<IDistributedCache> _cacheMock;
         private readonly LoyalitySystemDbContext _dbContext;
         private readonly LoyalitySystemService _service;
 
@@ -22,7 +25,8 @@ namespace LoyalitySystem.Tests
                 .Options;
             _dbContext = new LoyalitySystemDbContext(options);
             _loggerMock = new Mock<ILogger<LoyalitySystemService>>();
-            _service = new LoyalitySystemService(_dbContext, _loggerMock.Object);
+            _cacheMock = new Mock<IDistributedCache>();
+            _service = new LoyalitySystemService(_dbContext, _loggerMock.Object, _cacheMock.Object);
         }
 
         [Fact]
@@ -63,6 +67,37 @@ namespace LoyalitySystem.Tests
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<Exception>(() => _service.Earn(nonExistentUserId, pointsToAdd));
+            Assert.Equal("User not found", exception.Message);
+        }
+
+        [Fact]
+        public async Task GetPointsAsync_ShouldReturnCachedPoints_WhenCacheIsAvailable()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var cachedPoints = 200;
+            _cacheMock.Setup(x => x.GetAsync(It.IsAny<string>(), default))
+                      .ReturnsAsync(System.Text.Encoding.UTF8.GetBytes(JsonSerializer.Serialize(cachedPoints)));
+
+            // Act
+            var result = await _service.GetPointsAsync(userId);
+
+            // Assert
+            Assert.Equal(cachedPoints, result);
+            _cacheMock.Verify(x => x.GetAsync(It.IsAny<string>(), default), Times.Once);
+        }
+
+
+        [Fact]
+        public async Task GetPointsAsync_ShouldThrowException_WhenUserNotFound()
+        {
+            // Arrange
+            var nonExistentUserId = Guid.NewGuid();
+            _cacheMock.Setup(x => x.GetAsync(It.IsAny<string>(), default))
+                      .ReturnsAsync((byte[])null);
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<Exception>(() => _service.GetPointsAsync(nonExistentUserId));
             Assert.Equal("User not found", exception.Message);
         }
     }

@@ -4,7 +4,6 @@ using LoyalitySystem.Contracts;
 using LoyalitySystem.Host.Validators;
 using LoyalitySystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace LoyalitySystem.Host
@@ -17,6 +16,11 @@ namespace LoyalitySystem.Host
             //var connectionString = string.Format(Configuration.GetConnectionString("LoyalitySystemDb"), dbPassword);
 
             var LoyalitySystemDbConnection = string.Format(builder.Configuration.GetConnectionString("LoyalitySystemDb"), dbPassword);
+
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = builder.Configuration["Redis:ConnectionString"];
+            });
 
             //register Services
             builder.Services.AddScoped<ILoyalitySystemService, LoyalitySystemService>();
