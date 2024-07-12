@@ -35,9 +35,8 @@ namespace LoyalitySystem.Host
                 .CreateLogger();
             builder.Host.UseSerilog();
 
-            // Add FluentValidation
-            builder.Services.AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<EarnPointsRequestValidator>());
+            //// Add FluentValidation
+            builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
             return builder;
 
