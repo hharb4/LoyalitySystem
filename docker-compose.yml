@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    command: ["start-dev"]
+    networks:
+      - loyalty-network
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      - SA_PASSWORD=r00t.R00T
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    networks:
+      - loyalty-network
+
+  loyalitysystem.host:
+    image: ${DOCKER_REGISTRY-}loyalitysystemhost
+    build:
+      context: .
+      dockerfile: LoyalitySystem.Host/Dockerfile
+    container_name: loyalitysystemhost
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Keycloak__Realm=master
+      - Keycloak__Authority=http://localhost:8080/realms/master
+      - Keycloak__Audience=loyalty-system-client
+      - Keycloak__RealmUrl=http://localhost:8080/realms/master
+      - Keycloak__ClientId=loyalty-system-client
+      - Keycloak__ClientSecret=5gnlJpcZ0ONeZRbVswJU9413kbMao2Yk
+      - ConnectionStrings__LoyalitySystemDb=Server=sqlserver,1433;Database=LoyalitySystemDb;User Id=sa;Password={0};TrustServerCertificate=True;
+      - DB_PASSWORD=r00t.R00T
+    ports:
+      - "5000:80"
+    depends_on:
+      - keycloak
+      - sqlserver
+    networks:
+      - loyalty-network
+
+networks:
+  loyalty-network:
+    driver: bridge
+
+volumes:
+  sqlserverdata:

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoyalitySystem.Domain.Share
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoyalitySystem.Tests", "LoyalitySystem.Tests\LoyalitySystem.Tests.csproj", "{20424026-EE10-40D2-BA88-02B5F00EFAB3}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6D92A1F9-F4A6-438E-97EB-6BB96AE15D21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{20424026-EE10-40D2-BA88-02B5F00EFAB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20424026-EE10-40D2-BA88-02B5F00EFAB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20424026-EE10-40D2-BA88-02B5F00EFAB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D92A1F9-F4A6-438E-97EB-6BB96AE15D21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D92A1F9-F4A6-438E-97EB-6BB96AE15D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D92A1F9-F4A6-438E-97EB-6BB96AE15D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D92A1F9-F4A6-438E-97EB-6BB96AE15D21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

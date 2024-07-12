@@ -1,10 +1,12 @@
 ﻿using LoyalitySystem.Contracts;
 using LoyalitySystem.Contracts.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoyalitySystem.Host.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
