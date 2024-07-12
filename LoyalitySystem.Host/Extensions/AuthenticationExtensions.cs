@@ -13,6 +13,7 @@ namespace LoyalitySystem.Host.Extensions
             var keycloakAudience = configuration["Keycloak:Audience"];
             var keycloakClientId = configuration["Keycloak:ClientId"];
             var keycloakClientSecret = configuration["Keycloak:ClientSecret"];
+            var issuerSigningKey = configuration["Keycloak:IssuerSigningKey"];
 
             services.AddAuthentication(options =>
             {
@@ -33,7 +34,7 @@ namespace LoyalitySystem.Host.Extensions
                     ValidateLifetime = true,
                     IssuerSigningKey = new RsaSecurityKey(new RSAParameters
                     {
-                        Modulus = Base64UrlEncoder.DecodeBytes("mv5K6Hxuq4MHos4lFVG4gQohV4x0OOK4kAgjXcT5385fOfqs9B-2z6CcJThF8MhPF2EFcm3O1M3SMs-Saa27D38qoNZN1rdLSIpI8oF03zZ5yhqn6I6sgOaDHKHrD0v8W58Umfj5zS1WoE8BfF_c1UyO_16Pq9PKfbyCoSBcg_fCCYDZZBsvVfP7dfUqzPtxu0qk8yGjHHy9MecgHe_16sSqCixiZ4sk-ZFsN-JmKu0Q_bKH_bwhSa0B5cg5n-doiOGJ3jaF7pHhJNPWAB6ho1z7RJjS317UENVXhKw_si_3f-VbDCGkibigd0RJChBoffcOIJ0mHvHV8EV_DN_6Tw"),
+                        Modulus = Base64UrlEncoder.DecodeBytes(issuerSigningKey),
                         Exponent = Base64UrlEncoder.DecodeBytes("AQAB")
                     })
                 };

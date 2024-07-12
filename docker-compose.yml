@@ -37,9 +37,10 @@ services:
       - Keycloak__Realm=master
       - Keycloak__Authority=http://localhost:8080/realms/master
       - Keycloak__Audience=loyalty-system-client
+      - Keycloak__IssuerSigningKey=x2CDA40Fbe_xPujprynSfPONTDB93FjtEpY2ii6iVlgBbdRTcZR_rMvdhvRliU0p3rMy-zrqBIm3ROEcxp3edOF9F863p-6TFQXZKvVItoHq9oqsEjoE4mNrTJDvik3f95qDgfsG-WinDjRl2YLhBPBcscBGE2TrKUPEAV3xS7WxjxmtW0FPfMxEUTq2-kfKs9Nb2v_PULQQYsPHkOEtj3lH9U2cqAoBAlQMj9pOiyioOlneuq4yd7RQnmQw2x9DS6TL9g48XW9YTDdDx8jHrOzWVDk3uTU_4b7rLXGYLC5gU2oPcj5YaqbM4ojNT2hQgJ1AKaB6OzbjeIvrdVAxHw
       - Keycloak__RealmUrl=http://localhost:8080/realms/master
       - Keycloak__ClientId=loyalty-system-client
-      - Keycloak__ClientSecret=5gnlJpcZ0ONeZRbVswJU9413kbMao2Yk
+      - Keycloak__ClientSecret=MYEnrGh4bokNUWKohkskkjPTLMhIXSMH
       - ConnectionStrings__LoyalitySystemDb=Server=sqlserver,1433;Database=LoyalitySystemDb;User Id=sa;Password={0};TrustServerCertificate=True;
       - DB_PASSWORD=r00t.R00T
     ports:
