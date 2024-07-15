@@ -10,7 +10,7 @@
 7. LoyaltySystem.Tests
 
 ## Keycloak
-**Description:** Keycloak is used for authentication and authorization. It is containerized and runs on `localhost:8080`. In the project it is used only for authorization
+**Description:** Keycloak is used for authentication and authorization. It is containerized and runs on `localhost:8080`.
 
 **Default Credentials:**
 - Username: admin
